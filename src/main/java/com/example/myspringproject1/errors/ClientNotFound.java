@@ -1,4 +1,4 @@
-package com.example.lab2weblayer.errors;
+package com.example.myspringproject1.errors;
 
 public class ClientNotFound extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.example.lab2weblayer.model;
+package com.example.myspringproject1.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,6 @@ public abstract class User implements Serializable {
     protected String password;
     protected String name;
     protected String surname;
-    //jei daugiau yra, prirasot
 
     public User(String login, String password, String name, String surname) {
         this.login = login;

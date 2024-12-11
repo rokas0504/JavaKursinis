@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<h2>My Reserved Publications</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="publication : ${borrowedPublications}">
+    <td th:text="${publication.title}"></td>
+    <td th:text="${publication.author}"></td>
+    <td th:text="${publication.publicationStatus}"></td>
+    <td>
+      <form th:action="@{/clients/unreserve/{publicationId}(publicationId=${publication.id})}" method="post">
+        <button type="submit">Unreserve</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<h2>My Owned Publications</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="publication : ${clientPublications}">
+    <td th:text="${publication.title}"></td>
+    <td th:text="${publication.author}"></td>
+    <td>
+      <form th:action="@{/clients/delete/{publicationId}(publicationId=${publication.id})}" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a th:href="@{/clients/my-comments}" class="btn btn-primary">View My Comments</a>
+<a href="/">Back to Home</a>

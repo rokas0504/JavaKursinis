@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Home Page</title>
 </head>
 <body>
-$END$
+<h1>Welcome to the Home Page</h1>
+<div th:if="${session.loggedInUser != null}">
+    <span th:if="${session.loggedInUser.class.simpleName == 'Admin'}">
+        <div><a href="/logout">Logout</a></div>
+        <div><a href="/users/viewAllUsers">Manage Users</a></div>
+        <div><a href="users/createPage">Create a user</a></div>
+        <div><a href="/publications/viewAllPublications">View Publications</a></div>
+
+
+    </span>
+    <span th:if="${session.loggedInUser.class.simpleName == 'Client'}">
+        <p>Welcome, Client!</p>
+        <div><a href="/logout">Logout</a></div>
+        <div><a href="/publications/viewAllPublications">View Publications</a></div>
+        <div><a href="/clients/profile">Go to Your Profile</a>
+</div>
+
+    </span>
+</div>
+<div th:if="${session.loggedInUser == null}">
+    <p>Please <a href="/login">log in</a> to access the system.</p>
+</div>
+<!DOCTYPE html>
+
 </body>
 </html>

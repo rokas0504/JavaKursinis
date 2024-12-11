@@ -1,6 +1,6 @@
-package com.example.lab2weblayer.model;
+package com.example.myspringproject1.model;
 
-import com.example.lab2weblayer.model.enums.PublicationStatus;
+import com.example.myspringproject1.model.enums.PublicationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,19 +19,35 @@ public class Publication implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
+
     protected String title;
     protected String author;
+
     @ManyToOne
     protected Client owner;
+
     @ManyToOne
     protected Client client;
+
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
     protected List<PeriodicRecord> records;
-    @Enumerated
-    protected PublicationStatus publicationStatus;
+
+    @Enumerated(EnumType.STRING)
+    protected PublicationStatus publicationStatus = PublicationStatus.AVAILABLE;
+
+    protected boolean hidden;
 
     public Publication(String title, String author) {
         this.title = title;
         this.author = author;
+        this.hidden = false;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }

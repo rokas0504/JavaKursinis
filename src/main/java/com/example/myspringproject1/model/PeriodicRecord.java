@@ -1,6 +1,6 @@
-package com.example.lab2weblayer.model;
+package com.example.myspringproject1.model;
 
-import com.example.lab2weblayer.model.enums.PublicationStatus;
+import com.example.myspringproject1.model.enums.PublicationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

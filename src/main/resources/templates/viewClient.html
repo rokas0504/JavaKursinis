@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>View Client</title>
 </head>
 <body>
-$END$
+<h1>Client Details</h1>
+<p><strong>Name:</strong> <span th:text="${client.name}"></span></p>
+<p><strong>Address:</strong> <span th:text="${client.address}"></span></p>
+
+<form th:action="@{/comments/add}" method="post">
+    <textarea name="body" placeholder="Write your comment"></textarea>
+    <button type="submit">Comment</button>
+</form>
+
+<h2>Comments</h2>
+
+<div th:each="comment : ${client.commentList}">
+    <div>
+        <p>
+            <strong th:text="${comment.commentOwner.name} + ' ' + ${comment.commentOwner.surname}"></strong>:
+            <span th:text="${comment.body}"></span>
+        </p>
+        <small>Posted on <span th:text="${comment.timestamp}"></span></small>
+
+        <form th:action="@{/comments/reply}" method="post" style="margin-left: 20px;">
+            <input type="hidden" name="parentId" th:value="${comment.id}" />
+            <textarea name="body" placeholder="Write your reply"></textarea>
+            <button type="submit">Reply</button>
+        </form>
+
+        <div th:if="${comment.replies != null}" th:each="reply : ${comment.replies}" style="margin-left: 40px;">
+            <p>
+                <strong th:text="${reply.commentOwner.name} + ' ' + ${reply.commentOwner.surname}"></strong>:
+                <span th:text="${reply.body}"></span>
+            </p>
+            <small>Posted on <span th:text="${reply.timestamp}"></span></small>
+
+            <form th:action="@{/comments/reply}" method="post" style="margin-left: 20px;">
+                <input type="hidden" name="parentId" th:value="${reply.id}" />
+                <textarea name="body" placeholder="Write your reply"></textarea>
+                <button type="submit">Reply</button>
+            </form>
+
+            <div th:if="${reply.replies != null}" th:each="nestedReply : ${reply.replies}" style="margin-left: 40px;">
+                <p>
+                    <strong th:text="${nestedReply.commentOwner.name} + ' ' + ${nestedReply.commentOwner.surname}"></strong>:
+                    <span th:text="${nestedReply.body}"></span>
+                </p>
+                <small>Posted on <span th:text="${nestedReply.timestamp}"></span></small>
+
+                <form th:action="@{/comments/reply}" method="post" style="margin-left: 20px;">
+                    <input type="hidden" name="parentId" th:value="${nestedReply.id}" />
+                    <textarea name="body" placeholder="Write your reply"></textarea>
+                    <button type="submit">Reply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/publications/viewAllPublications">Back to Publications</a>
+<a href="/">Back to Home</a>
 </body>
 </html>

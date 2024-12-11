@@ -1,4 +1,4 @@
-package com.example.lab2weblayer.model;
+package com.example.myspringproject1.model;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;

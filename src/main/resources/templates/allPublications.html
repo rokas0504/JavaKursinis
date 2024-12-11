@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>All Publications</title>
 </head>
 <body>
-$END$
+<h1>All Publications</h1>
+<div th:if="${errorMessage}" style="color: red;">
+  <p th:text="${errorMessage}"></p>
+</div>
+
+<form action="/publications/viewAllPublications" method="get">
+  <label for="type">Filter by type:</label>
+  <select id="type" name="type">
+    <option value="All">All</option>
+    <option value="Book">Book</option>
+    <option value="Manga">Manga</option>
+  </select>
+
+  <label for="status">Filter by status:</label>
+  <select id="status" name="status">
+    <option value="All">All</option>
+    <option value="AVAILABLE">Available</option>
+    <option value="BORROWED">Borrowed</option>
+  </select>
+
+  <label for="author">Filter by author:</label>
+  <input type="text" id="author" name="author" placeholder="Enter author name">
+
+  <label for="owner">Filter by owner:</label>
+  <input type="text" id="owner" name="owner" placeholder="Enter owner name">
+
+  <label for="year">Filter by publication year:</label>
+  <input type="number" id="year" name="year" placeholder="Enter year">
+
+  <button type="submit">Filter</button>
+</form>
+
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Owner</th>
+    <th th:if="${type == 'Book'}">Publisher</th>
+    <th th:if="${type == 'Book'}">ISBN</th>
+    <th th:if="${type == 'Book'}">Genre</th>
+    <th th:if="${type == 'Book'}">Page Count</th>
+    <th th:if="${type == 'Book'}">Publication Year</th>
+    <th th:if="${type == 'Book'}">Format</th>
+    <th th:if="${type == 'Book'}">Summary</th>
+    <th th:if="${type == 'Manga'}">Illustrator</th>
+    <th th:if="${type == 'Manga'}">Volume Number</th>
+    <th th:if="${type == 'Manga'}">Demographic</th>
+    <th th:if="${type == 'Manga'}">Is Color</th>
+    <th th:if="${type == 'Periodical'}">Publisher</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="publication : ${publications}">
+    <td th:text="${publication.title}"></td>
+    <td th:text="${publication.author}"></td>
+    <td th:text="${publication.owner.name}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.publisher}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.isbn}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.genre}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.pageCount}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.publicationYear}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.format}"></td>
+    <td th:if="${type == 'Book'}" th:text="${publication.summary}"></td>
+    <td th:if="${type == 'Manga'}" th:text="${publication.illustrator}"></td>
+    <td th:if="${type == 'Manga'}" th:text="${publication.volumeNumber}"></td>
+    <td th:if="${type == 'Manga'}" th:text="${publication.demographic}"></td>
+    <td th:if="${type == 'Manga'}" th:text="${publication.isColor ? 'Yes' : 'No'}"></td>
+    <td th:text="${publication.publicationStatus.name()}"></td>
+    <td>
+      <form th:action="@{/publications/borrow/{id}(id=${publication.id})}" method="post" th:if="${publication.publicationStatus.name() == 'AVAILABLE'}">
+        <button type="submit">Borrow</button>
+      </form>
+      <span th:if="${publication.publicationStatus.name() == 'RESERVED'}">Already Reserved</span>
+
+      <form th:action="@{/view/{clientId}(clientId=${publication.owner.id})}" method="get">
+        <button type="submit">Comment Owner</button>
+      </form>
+
+    <form th:action="@{/publications/delete/{id}(id=${publication.id})}" method="post"
+          th:if="${loggedInUser != null and loggedInUser.getClass().simpleName == 'Admin'}">
+      <button type="submit" style="color: red;">Delete</button>
+    </form>
+
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/publications/addPublication">Add Publication</a>
+<br>
+<a href="/">Back to Home</a>
 </body>
 </html>

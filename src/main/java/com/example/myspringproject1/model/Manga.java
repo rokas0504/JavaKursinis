@@ -1,6 +1,6 @@
-package com.example.lab2weblayer.model;
+package com.example.myspringproject1.model;
 
-import com.example.lab2weblayer.model.enums.Demographic;
+import com.example.myspringproject1.model.enums.Demographic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -16,17 +16,15 @@ import lombok.Setter;
 public class Manga extends Publication{
 
     private String illustrator;
-    private String originalLanguage;
     private int volumeNumber;
     @Enumerated
     private Demographic demographic;
     private boolean isColor;
 
 
-    public Manga(String title, String author, String illustrator, String originalLanguage, int volumeNumber, Demographic demographic, boolean isColor) {
+    public Manga(String title, String author, String illustrator, int volumeNumber, Demographic demographic, boolean isColor) {
         super(title, author);
         this.illustrator = illustrator;
-        this.originalLanguage = originalLanguage;
         this.volumeNumber = volumeNumber;
         this.demographic = demographic;
         this.isColor = isColor;

@@ -1,4 +1,4 @@
-package com.example.lab2weblayer.model.enums;
+package com.example.myspringproject1.model.enums;
 
 public enum Genre {
 

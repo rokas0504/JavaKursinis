@@ -1,5 +1,5 @@
-package com.example.lab2weblayer.model.enums;
+package com.example.myspringproject1.model.enums;
 
 public enum Demographic {
-    //TODO complete during the 3rd lecture
+    SHONEN, KODOMO, SEINEN, SHOJO, JOSEI, REDISU, DOJINSHI, GEKIGA, SILVER, GOLDEN
 }
